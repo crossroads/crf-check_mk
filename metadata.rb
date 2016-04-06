@@ -5,3 +5,11 @@ license          'Apache 2.0'
 description      'Installs/Configures crf-check_mk'
 long_description 'Installs/Configures crf-check_mk'
 version          '0.1.0'
+
+supports 'centos'
+
+depends 'yum-epel'
+depends 'python'
+depends 'apache2'
+depends 'certificate'
+depends 'xinetd'

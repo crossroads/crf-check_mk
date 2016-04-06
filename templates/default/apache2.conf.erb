@@ -1,0 +1,24 @@
+<VirtualHost <%= @node['check_mk']['bind_address'] %>:80>
+
+  ServerName  <%= @node['check_mk']['domainname'] %>
+  ServerAlias <%= @node['check_mk']['hostname'] %>
+
+  RewriteEngine On
+  RewriteRule /(.*) https://<%= @node['check_mk']['domainname'] %>/$1 [R=permanent,NE]
+
+</VirtualHost>
+
+<VirtualHost <%= @node['check_mk']['bind_address'] %>:443>
+
+  ServerName  <%= @node['check_mk']['domainname'] %>
+  ServerAlias <%= @node['check_mk']['hostname'] %>
+
+  SSLEngine On
+  SSLCertificateFile      /etc/pki/tls/certs/<%= @node['check_mk']['certificate']['cert_file'] %>
+  SSLCertificateKeyFile   /etc/pki/tls/private/<%= @node['check_mk']['certificate']['key_file'] %>
+  SSLCertificateChainFile /etc/pki/tls/certs/<%= @node['check_mk']['certificate']['chain_file'] %>
+
+</VirtualHost>
+
+#Include Apache configuration of OMD sites
+IncludeOptional /omd/apache/*.conf
