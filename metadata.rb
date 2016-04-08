@@ -2,9 +2,11 @@ name             'crf-check_mk'
 maintainer       'Crossroads Foundation Ltd'
 maintainer_email 'itdept@crossroads.org.hk'
 license          'Apache 2.0'
-description      'Installs/Configures crf-check_mk'
-long_description 'Installs/Configures crf-check_mk'
+description      'Installs/Configures Check_MK'
+long_description 'Installs/Configures Check_MK'
 version          '0.1.0'
+issues_url       'https://github.com/crossroads/crf-check_mk/issues'
+source_url       'https://github.com/crossroads/crf-check_mk'
 
 supports 'centos'
 
