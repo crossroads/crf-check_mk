@@ -17,10 +17,12 @@
 # limitations under the License.
 #
 
-include_recipe 'xinetd::default'
+include_recipe 'yum-epel::default'
+include_recipe 'firewall'
+include_recipe 'systemd'
 
+check_mk_servers = []
 unless Chef::Config[:solo]
-  check_mk_servers = []
   search(:node, "role:check_mk_server") do |n|
     check_mk_servers << n['ipaddress']
   end
@@ -30,14 +32,28 @@ package 'check-mk-agent' do
   action :upgrade
 end
 
-template '/etc/xinetd.d/check-mk-agent' do
-  source 'check-mk-agent.erb'
-  variables ( {
-    :check_mk_servers => check_mk_servers
-  } )
-  notifies :restart, 'service[xinetd]'
+systemd_socket 'check_mk_agent' do
+  description 'Check_MK Socket for Per-Connection Servers'
+  conflicts 'check_mk_agent.service'
+  install do
+    wanted_by 'sockets.target'
+  end
+  socket do
+    listen_stream node['check_mk']['client']['port']
+    accept true
+  end
+  action [:create, :enable, :start]
 end
 
+systemd_service 'check_mk_agent@' do
+  description 'Check_MK Per-Connection Server'
+  service do
+    exec_start '/usr/bin/check_mk_agent'
+    standard_input 'socket'
+  end
+end
+
+# Firewall rules for the Check MK agent service
 check_mk_servers.each do |source|
   firewall_rule "check_mk-agent-ports-#{source}" do
     protocol  :tcp
@@ -46,3 +62,7 @@ check_mk_servers.each do |source|
   end
 end
 
+# Clean up legacy files
+template '/etc/xinetd.d/check-mk-agent' do
+  action :delete
+end
