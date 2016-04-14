@@ -66,3 +66,6 @@ end
 template '/etc/xinetd.d/check-mk-agent' do
   action :delete
 end
+template '/etc/xinetd.d/check-mk-caching-agent' do
+  action :delete
+end
