@@ -10,9 +10,9 @@ source_url       'https://github.com/crossroads/crf-check_mk'
 
 supports 'centos'
 
-depends 'yum-epel'
+depends 'yum-epel', '~> 0.6'
 depends 'python'
 depends 'apache2'
-depends 'certificate'
-depends 'firewall'
-depends 'systemd'
+depends 'certificate', '~> 1.0'
+depends 'firewall', '~> 2.5'
+depends 'systemd', '~> 2.0'
