@@ -60,6 +60,10 @@ check_mk_servers.each do |source|
     port      node['check_mk']['client']['port']
     source    source
   end
+  firewall_rule "check_mk-agent-ping-#{source}" do
+    protocol  :icmp
+    source    source
+  end
 end
 
 # Clean up legacy files
