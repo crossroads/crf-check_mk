@@ -13,3 +13,5 @@ suites:
     run_list:
       - recipe[crf-check_mk::client]
     attributes:
+      firewall:
+        allow_ssh: true
