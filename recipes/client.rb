@@ -66,6 +66,13 @@ check_mk_servers.each do |source|
   end
 end
 
+# Include postgresql CheckMK plugin
+link '/usr/share/check-mk-agent/plugins/mk_postgres' do
+  to '/usr/share/check-mk-agent/available-plugins/mk_postgres'
+  link_type :symbolic
+  only_if { node.recipe?('postgresql::server') }
+end
+
 # Clean up legacy files
 template '/etc/xinetd.d/check-mk-agent' do
   action :delete
