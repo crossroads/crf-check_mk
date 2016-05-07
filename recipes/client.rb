@@ -73,6 +73,12 @@ link '/usr/share/check-mk-agent/plugins/mk_postgres' do
   only_if { node.recipe?('postgresql::server') }
 end
 
+# Include Splunk SSL certificate checks
+template '/usr/share/check-mk-agent/available-plugins/check_ssl_certificate' do
+  source 'check_ssl_certificate.erb'
+  mode   0755
+end
+
 # Clean up legacy files
 template '/etc/xinetd.d/check-mk-agent' do
   action :delete
