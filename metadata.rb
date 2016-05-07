@@ -4,7 +4,7 @@ maintainer_email 'itdept@crossroads.org.hk'
 license          'Apache 2.0'
 description      'Installs/Configures Check_MK'
 long_description 'Installs/Configures Check_MK'
-version          '0.2.2'
+version          '0.2.3'
 issues_url       'https://github.com/crossroads/crf-check_mk/issues'
 source_url       'https://github.com/crossroads/crf-check_mk'
 
