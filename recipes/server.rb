@@ -57,13 +57,13 @@ certificate_manage 'check_mk' do
 end
 
 node['check_mk']['sites'].each do |site|
-  execute 'create-omd-#{site}' do
+  execute "create-omd-#{site}" do
     command "/usr/bin/omd create #{site}"
     notifies :restart, 'service[apache2]'
     not_if do File.directory?("/opt/omd/sites/#{site}") end
   end
 
-  execute 'omd-fix-permissions-#{site}' do
+  execute "omd-fix-permissions-#{site}" do
     command "find /omd/sites/#{site}/etc -exec chmod g+w \\{} \\;"
   end
 end
